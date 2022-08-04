@@ -4,7 +4,7 @@
 using namespace std;
 
 extern "C"{
-	void set_to_1 (float *a);
+	void stack_pointer (float *a);
 }
 
 int main(){
