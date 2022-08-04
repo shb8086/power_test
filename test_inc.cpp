@@ -6,6 +6,7 @@ using namespace std;
 extern "C"{
 	void one_asm (float *a);
   void load_asm_2 (float *a);
+  void load_asm_3 (float *a);
   void load_asm (float *a);
 }
 
