@@ -15,7 +15,7 @@ gemm_asm_power_8_4_1:
     # loading A
     lxvw4x vs0,0,r3
     addi r3, r3, 4*4 # 4 block of single precision
-    lxvw4x vs0,0,r3
+    lxvw4x vs1,0,r3
     # subi r3, r3, (4*4)
 
     # loading C
@@ -33,8 +33,8 @@ gemm_asm_power_8_4_1:
     addi r5, r5, (4*4)
     lxvw4x vs8,0,r5
     addi r5, r5, (4*4)
-    lxvwsx vs9,0,r5
-    subi r3, r3, (4*4*7)
+    lxvw4x vs9,0,r5
+    subi r5, r5, (4*4*7)
 
     # loading B
     lxvw4x vs10,0,r4
@@ -69,4 +69,4 @@ gemm_asm_power_8_4_1:
     stxvw4x vs8,0,r5
     addi r5, r5, (4*4)
     stxvw4x vs9,0,r5
-    # subi r3, r3, (4*4*7)
+    # subi r5, r5, (4*4*7)

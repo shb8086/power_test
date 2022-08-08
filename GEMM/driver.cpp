@@ -35,22 +35,22 @@ void display (float const * l_a,
               std::size_t l_size){
   for( unsigned int l_id = 0; l_id < l_size; l_id++ ) {
     std::cout<< "l_a[" << l_id << "]= ";
-    std::cout<< l_a[l_id]<< std::endl;
+    std::cout<< float(l_a[l_id])<< std::endl;
   }
   std::cout<< std::endl;
   for( unsigned int l_id = 0; l_id < l_size; l_id++ ) {
     std::cout<< "l_b[" << l_id << "]= ";
-    std::cout<< l_b[l_id]<< std::endl;
+    std::cout<< float(l_b[l_id])<< std::endl;
   }
   std::cout<< std::endl;
   for( unsigned int l_id = 0; l_id < l_size; l_id++ ) {
     std::cout<< "l_c[" << l_id << "]= ";
-    std::cout<< l_c[l_id]<< std::endl;
+    std::cout<< float(l_c[l_id])<< std::endl;
   }
   std::cout<< std::endl;
   for( unsigned int l_id = 0; l_id < l_size; l_id++ ) {
     std::cout<< "l_c_ref[" << l_id << "]= ";
-    std::cout<< l_c_ref[l_id]<< std::endl;
+    std::cout<< float(l_c_ref[l_id])<< std::endl;
   }
 }
 
@@ -74,7 +74,7 @@ int main() {
     l_a[l_id] = l_id;
   }
   for( unsigned int l_id = 0; l_id < l_size; l_id++ ) {
-    l_b[l_id] = l_id *5;
+    l_b[l_id] = l_id *2;
   }
   for( unsigned int l_id = 0; l_id < l_size; l_id++ ) {
     l_c[l_id] = l_id *10;
@@ -82,12 +82,6 @@ int main() {
   for( unsigned int l_id = 0; l_id < l_size; l_id++ ) {
     l_c_ref[l_id] = l_c[l_id];
   }
-
-  display(l_a,
-          l_b,
-          l_c,
-          l_c_ref,
-          l_size);
 
   /*
    * VS: 8, 4, 1
@@ -109,8 +103,8 @@ int main() {
 
   // run assembly kernel
   gemm_asm_power_8_4_1( l_a,
-                       l_b,
-                       l_c );
+                        l_b,
+                        l_c );
 
   l_max_diff = max_diff( l_c_ref,
                          l_c,
