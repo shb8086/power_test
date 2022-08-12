@@ -4,16 +4,16 @@
 #include "kernels/gemm_ref.h"
 
 extern "C" {
-  void gemm_asm_power_8_4_1( float const * i_a,
-                             float const * i_b,
-                             float       * io_c );
+  void gemm_asm_power_8_4_1_sp( float const * i_a,
+                                float const * i_b,
+                                float       * io_c );
 }
 
 float max_diff( float const * i_mat0,
-                float const * i_mat1,
-                unsigned int  i_m,
-                unsigned int  i_n,
-                unsigned int  i_ld ) {
+                 float const * i_mat1,
+                 unsigned int  i_m,
+                 unsigned int  i_n,
+                 unsigned int  i_ld ) {
   float l_max_diff = 0;
 
   for( unsigned int l_m = 0; l_m < i_m; l_m++ ) {
@@ -64,8 +64,8 @@ int main() {
 
   float l_max_diff = 0;
   std::chrono::high_resolution_clock::time_point l_tp0, l_tp1;
-  std::chrono::duration<double> l_dur;
-  double l_gflops = 0;
+  std::chrono::duration<float> l_dur;
+  float l_gflops = 0;
   unsigned int l_n_repetitions = 0;
 
   // init data
@@ -102,9 +102,9 @@ int main() {
                 8 );
 
   // run assembly kernel
-  gemm_asm_power_8_4_1( l_a,
-                        l_b,
-                        l_c );
+  gemm_asm_power_8_4_1_sp( l_a,
+                           l_b,
+                           l_c );
 
   l_max_diff = max_diff( l_c_ref,
                          l_c,
@@ -117,13 +117,13 @@ int main() {
   // time power kernel
   l_tp0 = std::chrono::high_resolution_clock::now();
   for( unsigned int l_re = 0; l_re < l_n_repetitions; l_re++ ) {
-    gemm_asm_power_8_4_1( l_a,
-                          l_b,
-                          l_c );
+    gemm_asm_power_8_4_1_sp( l_a,
+                             l_b,
+                             l_c );
   }
   l_tp1 = std::chrono::high_resolution_clock::now();
 
-  l_dur = std::chrono::duration_cast< std::chrono::duration< double> >( l_tp1 - l_tp0 );
+  l_dur = std::chrono::duration_cast< std::chrono::duration< float> >( l_tp1 - l_tp0 );
 
   std::cout << "  duration: " << l_dur.count() << " seconds" << std::endl;
   l_gflops  = l_n_repetitions;

@@ -1,6 +1,6 @@
     .text
-    .type gemm_asm_power_8_4_1, %function
-    .global gemm_asm_power_8_4_1
+    .type gemm_asm_power_8_4_1_sp, %function
+    .global gemm_asm_power_8_4_1_sp
     /*
     * Performs the matrix-multiplication C+=A*B
     * with the shapes (8x4) = (8x1) * (1x4).
@@ -10,7 +10,7 @@
     * @param r4 pointer to B.
     * @param r5 pointer to C.
     */
-gemm_asm_power_8_4_1:
+gemm_asm_power_8_4_1_sp:
 
     # loading A
     lxvw4x vs0,0,r3
@@ -37,11 +37,18 @@ gemm_asm_power_8_4_1:
     subi r5, r5, (4*4*7)
 
     # loading B
-    lxvw4x vs10,0,r4
+/*    lxvw4x vs10,0,r4
     xxspltw vs11, vs10, 0
     xxspltw vs12, vs10, 1
     xxspltw vs13, vs10, 2
-    xxspltw vs14, vs10, 3
+    xxspltw vs14, vs10, 3*/
+    lxvwsx vs11, 0, r4
+    lxvwsx vs12, 0, r4
+    addi r4, r4, 4
+    lxvwsx vs13, 0, r4
+    addi r4, r4, 4
+    lxvwsx vs14, 0, r4
+    #subi r4, r4, (4*3)
 
     # mul-add
     xvmaddasp vs2, vs0, vs11 # vs2 = vs2 + vs0 * vs11
